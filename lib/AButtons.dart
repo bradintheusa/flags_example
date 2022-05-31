@@ -103,6 +103,7 @@ class _ButtonsScreenState extends State<ButtonsScreen> {
                     groupValue: oneValue,
                     leading: short[index],
                     title: long[index],
+                    flag: short[index],
                     onChanged: (value) => setValue(
                       value.toString(),
                     ),
@@ -122,6 +123,7 @@ class MyRadioListTile<T> extends StatelessWidget {
   final T groupValue;
   final String leading;
   final String title;
+  final String flag;
   final ValueChanged<T?> onChanged;
 
   const MyRadioListTile({
@@ -130,6 +132,7 @@ class MyRadioListTile<T> extends StatelessWidget {
     required this.onChanged,
     required this.leading,
     required this.title,
+    required this.flag,
   });
 
   @override
@@ -161,8 +164,18 @@ class MyRadioListTile<T> extends StatelessWidget {
             child: Container(
                 width: 25,
                 height: 15,
-                child: Image.asset('icons/flags/png/2.5x/us.png',
-                    package: 'country_icons', height: 15, width: 25)
+                child:
+                
+                Flag.fromString(
+                flag,
+                width: 25,
+                height: 15,
+                fit: BoxFit.fill,
+              ),
+                
+                
+                //  Image.asset('icons/flags/png/2.5x/us.png',
+                //     package: 'country_icons', height: 15, width: 25)
 
                 // Below is what I've attempted and when I try it, I get an error.
                 // Image.asset('icons/flags/png/2.5x/${leading}.png',
