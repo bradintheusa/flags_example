@@ -177,7 +177,7 @@ class MyRadioListTile<T> extends StatelessWidget {
     // now use it to get the two letter code.
     String flag = short[countryIndex];
 
-    log(title + " " + flag);
+    // log(title + " " + flag);
 
     return Container(
       width: 200,
