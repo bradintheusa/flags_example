@@ -36,11 +36,20 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             },
             child: const Icon(Icons.add),
           ),
-          Image.asset(
-            'icons/flags/png/2.5x/${oneValue}.png',
-            package: 'country_icons',
-            height: 11,
-          ),
+          // Image.asset(
+          //   'icons/flags/png/2.5x/${oneValue}.png',
+          //   package: 'country_icons',
+          //   height: 11,
+          // ),
+
+          oneValue == '' ? Container() :
+                Flag.fromString(
+                oneValue,
+                width: 25,
+                height: 15,
+                fit: BoxFit.fill,
+              ),
+
         ],
       ),
     );

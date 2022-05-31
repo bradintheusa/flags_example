@@ -12,12 +12,28 @@ class ButtonsScreen extends StatefulWidget {
 
 class _ButtonsScreenState extends State<ButtonsScreen> {
   final TextEditingController _countriesController = TextEditingController();
+  String searchText = '';
   var oneValue = 'us';
 
   @override
   void initState() {
     super.initState();
     getValue();
+    _countriesController.addListener(_filterList);
+  }
+
+  @override
+  void dispose() {
+    _countriesController.dispose();
+    super.dispose();
+  }
+
+  void _filterList() {
+    print('Text value: ${_countriesController.text}');
+
+    setState(() {
+      searchText = _countriesController.text.toLowerCase();
+    });
   }
 
   Future<void> getValue() async {
@@ -98,16 +114,20 @@ class _ButtonsScreenState extends State<ButtonsScreen> {
                   itemCount: long.length,
                   controller: ScrollController(),
                   separatorBuilder: (_, __) => const SizedBox(height: 8),
-                  itemBuilder: (context, index) => MyRadioListTile<String>(
-                    value: long[index],
-                    groupValue: oneValue,
-                    leading: short[index],
-                    title: long[index],
-                    flag: short[index],
-                    onChanged: (value) => setValue(
-                      value.toString(),
-                    ),
-                  ),
+                  itemBuilder: (context, index) => 
+                      long[index]
+                          .toLowerCase()
+                          .startsWith(searchText) ?
+                       MyRadioListTile<String>(
+                        value: long[index],
+                        groupValue: oneValue,
+                        leading: short[index],
+                        title: long[index],
+                        flag: short[index],
+                        onChanged: (value) => setValue(
+                          value.toString(),
+                        )
+                      ) : Container(),
                 ),
               ),
             ],
@@ -162,26 +182,22 @@ class MyRadioListTile<T> extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 4.0),
             child: Container(
-                width: 25,
-                height: 15,
-                child:
-                
-                Flag.fromString(
+              width: 25,
+              height: 15,
+              child: Flag.fromString(
                 flag,
                 width: 25,
                 height: 15,
                 fit: BoxFit.fill,
               ),
-                
-                
-                //  Image.asset('icons/flags/png/2.5x/us.png',
-                //     package: 'country_icons', height: 15, width: 25)
 
-                // Below is what I've attempted and when I try it, I get an error.
-                // Image.asset('icons/flags/png/2.5x/${leading}.png',
-                // package: 'country_icons', height: 15, width: 25)
+              //  Image.asset('icons/flags/png/2.5x/us.png',
+              //     package: 'country_icons', height: 15, width: 25)
 
-                ),
+              // Below is what I've attempted and when I try it, I get an error.
+              // Image.asset('icons/flags/png/2.5x/${leading}.png',
+              // package: 'country_icons', height: 15, width: 25)
+            ),
           ),
           Center(
             child: Container(
