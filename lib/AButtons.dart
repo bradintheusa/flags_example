@@ -1,4 +1,6 @@
 // import 'package:flutpro/screens/home_screen.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +14,10 @@ class ButtonsScreen extends StatefulWidget {
 
 class _ButtonsScreenState extends State<ButtonsScreen> {
   final TextEditingController _countriesController = TextEditingController();
+
+  // the country we are looking for.
   String searchText = '';
+
   var oneValue = 'us';
 
   @override
@@ -29,7 +34,8 @@ class _ButtonsScreenState extends State<ButtonsScreen> {
   }
 
   void _filterList() {
-    print('Text value: ${_countriesController.text}');
+    // this is calle on evey keystroke.
+    print('Search value: ${_countriesController.text}');
 
     setState(() {
       searchText = _countriesController.text.toLowerCase();
@@ -55,6 +61,12 @@ class _ButtonsScreenState extends State<ButtonsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // filter the list.
+    List<String> filtedlist = long
+        .where(
+            (c) => c.toLowerCase().startsWith(searchText) || searchText == '')
+        .toList();
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 240, 239, 239),
@@ -111,23 +123,16 @@ class _ButtonsScreenState extends State<ButtonsScreen> {
             children: <Widget>[
               Expanded(
                 child: ListView.separated(
-                  itemCount: long.length,
+                  itemCount: filtedlist.length, // use the filtered list.
                   controller: ScrollController(),
                   separatorBuilder: (_, __) => const SizedBox(height: 8),
-                  itemBuilder: (context, index) => 
-                      long[index]
-                          .toLowerCase()
-                          .startsWith(searchText) ?
-                       MyRadioListTile<String>(
-                        value: long[index],
-                        groupValue: oneValue,
-                        leading: short[index],
-                        title: long[index],
-                        flag: short[index],
-                        onChanged: (value) => setValue(
-                          value.toString(),
-                        )
-                      ) : Container(),
+                  itemBuilder: (context, index) => MyRadioListTile<String>(
+                      value: filtedlist[index],
+                      groupValue: oneValue,
+                      title: filtedlist[index],
+                      onChanged: (value) => setValue(
+                            value.toString(),
+                          )),
                 ),
               ),
             ],
@@ -141,18 +146,14 @@ class _ButtonsScreenState extends State<ButtonsScreen> {
 class MyRadioListTile<T> extends StatelessWidget {
   final T value;
   final T groupValue;
-  final String leading;
   final String title;
-  final String flag;
   final ValueChanged<T?> onChanged;
 
   const MyRadioListTile({
     required this.value,
     required this.groupValue,
     required this.onChanged,
-    required this.leading,
     required this.title,
-    required this.flag,
   });
 
   @override
@@ -170,6 +171,10 @@ class MyRadioListTile<T> extends StatelessWidget {
 
   Widget get _customRadioButton {
     final isSelected = value == groupValue;
+
+    // get the index for the this country and then use that to get the short code we need.
+    String flag = short[long.indexOf(title)];
+
     return Container(
       width: 200,
       padding: EdgeInsets.symmetric(horizontal: 3),
