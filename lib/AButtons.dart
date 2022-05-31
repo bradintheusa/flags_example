@@ -173,7 +173,11 @@ class MyRadioListTile<T> extends StatelessWidget {
     final isSelected = value == groupValue;
 
     // get the index for the this country and then use that to get the short code we need.
-    String flag = short[long.indexOf(title)];
+    var countryIndex = long.indexOf(title);
+    // now use it to get the two letter code.
+    String flag = short[countryIndex];
+
+    log(title + " " + flag);
 
     return Container(
       width: 200,
@@ -191,10 +195,14 @@ class MyRadioListTile<T> extends StatelessWidget {
               height: 15,
               child: Flag.fromString(
                 flag,
+                key: UniqueKey(),
                 width: 25,
                 height: 15,
                 fit: BoxFit.fill,
               ),
+
+              // the key makes sure the flag isn't from another wiget.
+              // the package does not export the assets so we use provided helper function.
 
               //  Image.asset('icons/flags/png/2.5x/us.png',
               //     package: 'country_icons', height: 15, width: 25)
