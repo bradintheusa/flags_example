@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:flag/flag.dart';
+import 'AButtonsValues.dart';
 import 'Abuttons.dart';
 
 class MyHomeScreen extends StatefulWidget {
@@ -21,6 +22,11 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var countryIndex = long.indexOf(oneValue);
+    String flag = '';
+    if (countryIndex >= 0) {
+      flag = short[countryIndex];
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('home'),
@@ -42,11 +48,10 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           //   height: 11,
           // ),
 
-          oneValue == '' ? Container() :
-   
-               Image.asset('icons/flags/png/${oneValue}.png',
+          oneValue == ''
+              ? Container()
+              : Image.asset('icons/flags/png/${flag}.png',
                   package: 'country_icons'),
-
         ],
       ),
     );
