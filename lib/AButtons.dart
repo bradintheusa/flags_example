@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'AButtonsValues.dart';
-import 'package:flag/flag.dart';
+// import 'package:flag/flag.dart';
 
 class ButtonsScreen extends StatefulWidget {
   @override
@@ -193,13 +193,8 @@ class MyRadioListTile<T> extends StatelessWidget {
             child: Container(
               width: 25,
               height: 15,
-              child: Flag.fromString(
-                flag,
-                key: UniqueKey(),
-                width: 25,
-                height: 15,
-                fit: BoxFit.fill,
-              ),
+              child: Image.asset('icons/flags/png/${flag}.png',
+                  package: 'country_icons'),
 
               // the key makes sure the flag isn't from another wiget.
               // the package does not export the assets so we use provided helper function.

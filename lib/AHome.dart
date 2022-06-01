@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flag/flag.dart';
+// import 'package:flag/flag.dart';
 import 'Abuttons.dart';
 
 class MyHomeScreen extends StatefulWidget {
@@ -43,12 +43,9 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           // ),
 
           oneValue == '' ? Container() :
-                Flag.fromString(
-                oneValue,
-                width: 25,
-                height: 15,
-                fit: BoxFit.fill,
-              ),
+   
+               Image.asset('icons/flags/png/${oneValue}.png',
+                  package: 'country_icons'),
 
         ],
       ),
